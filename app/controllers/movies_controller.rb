@@ -7,9 +7,39 @@ class MoviesController < ApplicationController
   end
 
   def index
+    params[:sorting]
+    session[:sorting]
     @movies = Movie.all
-  end
+   
+    @ratings = Movie.ob_rate
+    
+    @save_rating = @ratings
+    
 
+    if params.key?(:ratings)
+      session[:ratings] = params[:ratings].keys
+    end
+    
+    if session[:ratings]
+      @save_rating = session[:ratings]
+      @movies = @movies.where(rating: @save_rating)
+    end
+    
+    if params[:sorting] #sort the release date and title 
+      session[:sorting] = params[:sorting]
+    end
+    
+    if session[:sorting] == 'title' && session[:sorting] != 'release_date'
+      @movies = @movies.order(:title)
+      
+    end
+    
+    if session[:sorting] == 'release_date' && session[:sorting] != 'title'
+      @movies = @movies.order(:release_date)
+    end
+  end
+    
+    
   def new
     # default: render 'new' template
   end

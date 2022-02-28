@@ -1,0 +1,2 @@
+https://github.com/wfy90320/rottenpotatoes-rails-intro
+http://murmuring-depths-16074.herokuapp.com/

@@ -1,14 +1,32 @@
 <!--  This file is app/views/movies/index.html.erb -->
 <h2>All Movies</h2>
 
+<%= form_tag  movies_path, :id => 'ratings_form', :method => :get do %>
+  Include:
+  <%- @ratings.each do |rating| %>
+   <%= rating %>
+    <%= check_box_tag "ratings[#{rating}]", '', if @save_rating; @save_rating.include?(rating) end, :id => "ratings_#{rating}" %>
+  <% end  %>
+  <%= submit_tag 'Refresh', :class => 'btn btn-primary', :id => "ratings_submit" %>
+<% end  %>
+
+
 <%#  Part 1: Start here... %>
 
 <table class="table table-striped col-md-12" id="movies">
   <thead>
     <tr>
-      <th>Movie Title</th>
+  
+      
+      <th class="<%= 'hilite' if session[:sorting] == 'title' %>">
+        <%= link_to "Movie Title", movies_path(:sorting => 'title'), id: "title_header" %></th>
+      
       <th>Rating</th>
-      <th>Release Date</th>
+  
+      
+      <th class="<%= 'hilite' if session[:sorting] == 'release_date' %>">
+        <%= link_to "Release Date", movies_path(:sorting => 'release_date'), id: "release_date_header" %></th>
+      
       <th>More Info</th>
     </tr>
   </thead>
@@ -32,3 +50,7 @@
   </tbody>
 </table>
 <%= link_to 'Add new movie', new_movie_path, :class => 'btn btn-primary' %>
+
+
+
+
